@@ -1,0 +1,95 @@
+<div class="select-wrapper">
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      (keyup)="doFilter($event.target.value)"
+      placeholder="Search"
+    />
+  </mat-form-field>
+  <mat-form-field class="select-form-field">
+    <mat-label>Select coloumn</mat-label>
+    <mat-select
+      [(value)]="selectedColumn"
+      (selectionChange)="changeSortedColumn()"
+    >
+      <mat-option *ngFor="let column of displayedColumns" [value]="column">
+        {{column}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="select-form-field">
+    <mat-label>Select order</mat-label>
+    <mat-select [(value)]="selectedDir" (selectionChange)="changeSortedDir()">
+      <mat-option [value]="'asc'">
+        asc
+      </mat-option>
+      <mat-option [value]="'desc'">
+        desc
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="example-container mat-elevation-z8">
+  <table mat-table #table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="{{item}}" *ngFor="let item of displayedColumns">
+      <mat-header-cell *matHeaderCellDef mat-sort-header
+        >{{(item.split('_').join(' '))| titlecase}}</mat-header-cell
+      >
+      <mat-cell *matCellDef="let element">
+        <div class="col-wrapper">
+          <span class="mobile-label"
+            >{{(item.split('_').join(' '))| titlecase}}:</span
+          >
+          <span> {{element[item]}}</span>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="platform">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Platform </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">Weight:</span>
+        {{element.platform}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="score">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Score </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">Symbol:</span>
+        {{element.score}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="genre">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Genre </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">genre:</span>
+        {{element.genre}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="editors_choice">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> editors_choice </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">editors_choice:</span>
+        {{element.editors_choice}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="release_year">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> release_year </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">release_year:</span>
+        {{element.release_year}}
+      </mat-cell>
+    </ng-container> -->
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </table>
+  <mat-paginator [pageSizeOptions]="[15, 25,30]" showFirstLastButtons>
+  </mat-paginator>
+</div>
